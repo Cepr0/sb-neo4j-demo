@@ -1,14 +1,7 @@
 logging:
   level:
-    com:
-      comcast.nest.di.ssh: debug
-      github:
-        fonimus:
-          ssh:
-            shell: debug
     org:
       springframework:
-        shell: debug
         data: debug
         web: error
       neo4j:
