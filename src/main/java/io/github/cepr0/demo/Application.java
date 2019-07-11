@@ -4,12 +4,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
+import org.springframework.format.Formatter;
+import org.springframework.format.support.FormattingConversionServiceFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -26,6 +31,15 @@ public class Application {
 
 	public Application(CommandRepo commandRepo) {
 		this.commandRepo = commandRepo;
+	}
+
+	@Bean
+	public FormattingConversionServiceFactoryBean formattingConversionServiceFactoryBean() {
+		FormattingConversionServiceFactoryBean service = new FormattingConversionServiceFactoryBean();
+		Set<Formatter> formatters = new HashSet<>();
+		formatters.add(new LocalDateFormatter());
+		service.setFormatters(formatters);
+		return service;
 	}
 
 	public static void main(String[] args) {
